@@ -1,3 +1,5 @@
+using Othala.Shared;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +7,9 @@ builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddTransient<IDatabaseConnection>(s => new DatabaseConnection(builder.Configuration.GetConnectionString("DefaultConnection")!));
+
+builder.Services.AddMediatR(configuration => configuration.Lifetime = ServiceLifetime.Scoped);
 
 var app = builder.Build();
 

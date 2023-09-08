@@ -2,15 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala", "Othala\Othala.csproj", "{B6881A32-352F-460D-BBCE-CFFDDBB9F452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Feature", "Othala.Feature\Othala.Feature.csproj", "{E86C50C6-48AC-4853-A0B8-7EBD059A9D36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Features", "Othala.Features\Othala.Features.csproj", "{E86C50C6-48AC-4853-A0B8-7EBD059A9D36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Bug", "Othala.Bug\Othala.Bug.csproj", "{82287E8C-2A2A-4D3F-8BB4-CBEABCDB29F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Bugs", "Othala.Bugs\Othala.Bugs.csproj", "{82287E8C-2A2A-4D3F-8BB4-CBEABCDB29F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Error", "Othala.Error\Othala.Error.csproj", "{90411D63-561B-403F-A803-4B8B5211D896}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Errors", "Othala.Errors\Othala.Errors.csproj", "{90411D63-561B-403F-A803-4B8B5211D896}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.User", "Othala.User\Othala.User.csproj", "{A91A881D-F9E8-4642-B9D5-B3D5C021337F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Users", "Othala.Users\Othala.Users.csproj", "{A91A881D-F9E8-4642-B9D5-B3D5C021337F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.System", "Othala.System\Othala.System.csproj", "{CFA044C4-5236-4EC9-A8F0-ECF698E46F25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Systems", "Othala.Systems\Othala.Systems.csproj", "{CFA044C4-5236-4EC9-A8F0-ECF698E46F25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Shared", "Othala.Shared\Othala.Shared.csproj", "{BED5CB16-4D66-4AEB-9885-47781DB825AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +44,9 @@ Global
 		{CFA044C4-5236-4EC9-A8F0-ECF698E46F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFA044C4-5236-4EC9-A8F0-ECF698E46F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFA044C4-5236-4EC9-A8F0-ECF698E46F25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BED5CB16-4D66-4AEB-9885-47781DB825AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED5CB16-4D66-4AEB-9885-47781DB825AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED5CB16-4D66-4AEB-9885-47781DB825AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED5CB16-4D66-4AEB-9885-47781DB825AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
