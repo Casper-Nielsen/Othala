@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Systems", "Othala.Sy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Shared", "Othala.Shared\Othala.Shared.csproj", "{BED5CB16-4D66-4AEB-9885-47781DB825AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othala.Cache", "Othala.Cache\Othala.Cache.csproj", "{CC309A26-9466-4F5D-B9AE-F63FFD2673FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{BED5CB16-4D66-4AEB-9885-47781DB825AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BED5CB16-4D66-4AEB-9885-47781DB825AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BED5CB16-4D66-4AEB-9885-47781DB825AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC309A26-9466-4F5D-B9AE-F63FFD2673FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC309A26-9466-4F5D-B9AE-F63FFD2673FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC309A26-9466-4F5D-B9AE-F63FFD2673FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC309A26-9466-4F5D-B9AE-F63FFD2673FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

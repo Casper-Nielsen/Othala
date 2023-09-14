@@ -1,8 +1,8 @@
 ﻿using Dapper;
+using Othala.Cache;
 using Othala.Shared;
 using Othala.Users.Models;
 using Othala.Users.Repositories.SqlQueries;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Othala.Users.Repositories;
 
@@ -16,42 +16,38 @@ internal interface IUserRepository
 internal class UserRepository : IUserRepository
 {
     private readonly IDatabaseConnection _databaseConnection;
-    private readonly IMemoryCache _memoryCache;
+    private readonly ICacheService _cacheService;
 
     public UserRepository(
         IDatabaseConnection databaseConnection,
-        IMemoryCache memoryCache)
+        ICacheService cacheService)
     {
         _databaseConnection = databaseConnection;
-        _memoryCache = memoryCache;
+        _cacheService = cacheService;
     }
 
     public async Task<User> GetUser(int id)
     {
-        var cacheKey = $"user_{id.ToString()}";
-        
-        if (_memoryCache.TryGetValue<User>(cacheKey, out var user)) return user!;
-        
-        using var connection = await _databaseConnection.GetConnection();
-
-        user = await connection.QueryFirstAsync<User>(
-            UserQueries.GetUserById,
-            new
+        return await _cacheService.GetOrCreate(CacheConstants.User, id.ToString(), async () =>
             {
-                id
-            });
+                using var connection = await _databaseConnection.GetConnection();
 
-        _memoryCache.Set(cacheKey, user, TimeSpan.FromMinutes(30));
-
-        return user;
+                return await connection.QueryFirstAsync<User>(
+                    UserQueries.GetUserById,
+                    new
+                    {
+                        id
+                    });
+            }
+        );
     }
 
     public async Task<User> AddUser(User user)
     {
         using var connection = await _databaseConnection.GetConnection();
 
-        var userId = await connection.ExecuteScalarAsync<int>(
-            UserQueries.InsertUser,
+        var insertedUser = await connection.ExecuteScalarAsync<User>(
+            UserQueries.InsertUser + UserQueries.GetUserFromLastQuery,
             new
             {
                 user.Name,
@@ -59,7 +55,10 @@ internal class UserRepository : IUserRepository
                 user.Status
             });
 
-        return await GetUser(userId);
+        _cacheService.Remove(CacheConstants.User);
+        _cacheService.Set(CacheConstants.User, insertedUser.Id.ToString(), insertedUser);
+
+        return insertedUser;
     }
 
     public async Task UpdateUserStatus(int id, UserStatus status)
@@ -73,8 +72,7 @@ internal class UserRepository : IUserRepository
                 status,
                 id
             });
-        
-        var cache = $"user_{id.ToString()}";
-        _memoryCache.Remove(cache);
+
+        _cacheService.Remove(CacheConstants.User, id.ToString());
     }
 }

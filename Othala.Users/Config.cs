@@ -3,10 +3,11 @@ using Othala.Users.Repositories;
 
 namespace Othala.Users;
 
-public class Config
+public static class Config
 {
-    public void ConfigureServices(IServiceCollection services)
+    public static void ConfigureServices(IServiceCollection services)
     {
+        services.AddMediatR(configuration => configuration.Lifetime = ServiceLifetime.Transient);
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserRoleRepository, UserRoleRepository>();
     }

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using Microsoft.Extensions.Caching.Memory;
+using Othala.Cache;
 using Othala.Shared;
 using Othala.Users.Models;
 using Othala.Users.Repositories.SqlQueries;
@@ -16,42 +17,38 @@ internal interface IUserRoleRepository
 
 internal class UserRoleRepository : IUserRoleRepository
 {
-    private readonly IMemoryCache _memoryCache;
+    private readonly ICacheService _cacheService;
     private readonly IDatabaseConnection _databaseConnection;
 
     public UserRoleRepository(
-        IMemoryCache memoryCache, 
+        ICacheService cacheService,
         IDatabaseConnection databaseConnection)
     {
-        _memoryCache = memoryCache;
+        _cacheService = cacheService;
         _databaseConnection = databaseConnection;
     }
 
     public async Task<IEnumerable<UserRole>> GetUserRoles(int userId, bool forceRefresh = false)
     {
-        var cacheKey = $"user-roles_{userId.ToString()}";
+        return await _cacheService.GetOrCreate(CacheConstants.UserRole, userId.ToString(), async () =>
+        {
+            using var connection = await _databaseConnection.GetConnection();
 
-        if (!forceRefresh && _memoryCache.TryGetValue<IEnumerable<UserRole>>(cacheKey, out var userRoles)) return userRoles!;
-        
-        using var connection = await _databaseConnection.GetConnection();
-        
-        userRoles = await connection.QueryAsync<UserRole>(
-            UserRoleQueries.GetUserRolesFromUserId,
-            new
-            {
-                userId
-            });
-        
-        _memoryCache.Set(cacheKey, userRoles, TimeSpan.FromMinutes(30));
-        
-        return userRoles;
-        
+            var userRoles = await connection.QueryAsync<UserRole>(
+                UserRoleQueries.GetUserRolesFromUserId,
+                new
+                {
+                    userId
+                });
+
+            return userRoles;
+        });
     }
 
     public async Task AddUserRole(int userId, UserRole userRoles)
     {
         using var connection = await _databaseConnection.GetConnection();
-        
+
         await connection.ExecuteAsync(
             UserRoleQueries.AddUserRoles,
             new
@@ -59,8 +56,8 @@ internal class UserRoleRepository : IUserRoleRepository
                 userId,
                 userRoles
             });
-        
-        _memoryCache.Remove($"user-roles_{userId.ToString()}");
+
+        _cacheService.Remove(CacheConstants.UserRole, userId.ToString());
     }
 
     public async Task RemoveUserRole(int userId, UserRole userRoles)
@@ -75,6 +72,6 @@ internal class UserRoleRepository : IUserRoleRepository
                 userRoles
             });
         
-        _memoryCache.Remove($"user-roles_{userId.ToString()}");
+        _cacheService.Remove(CacheConstants.UserRole, userId.ToString());
     }
 }

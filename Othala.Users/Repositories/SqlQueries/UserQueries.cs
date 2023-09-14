@@ -17,8 +17,18 @@ WHERE
 INSERT INTO Users
 ( Name, Email, Status) 
 VALUES
-( @Name, @Email, @Status );
-SELECT LAST_INSERT_ID();";
+( @Name, @Email, @Status );";
+    
+    internal const string GetUserFromLastQuery = @"
+SELECT
+    Id    
+    Name,
+    Email,
+    Status
+FROM Users
+WHERE
+    Id = LAST_INSERT_ID();
+";
 
     internal const string UpdateUserStatus = @"
 UPDATE Users
